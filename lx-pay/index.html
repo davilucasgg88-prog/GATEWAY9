@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lx PAY — Pagamentos sem atrito</title>
+<meta name="description" content="Lx PAY: gateway de pagamentos com Pix, cartão e boleto. Aprovação alta, saque rápido e checkout que converte.">
+<style>
+  :root {
+    --yellow: #FDE047;
+    --void: #0A0A0A;
+    --surface: #171717;
+    --gray: #262626;
+    --white: #FFFFFF;
+    --muted: rgba(255,255,255,.6);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --font: "Inter", "General Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    background: var(--void);
+    color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  svg { display: block; }
+  .wrap { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Type ---------- */
+  .label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .22em;
+  }
+  .h-hero {
+    font-size: clamp(52px, 9vw, 120px);
+    font-weight: 800; line-height: .92; letter-spacing: -0.045em;
+  }
+  .h-xl {
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 800; line-height: .95; letter-spacing: -0.04em;
+  }
+  .sub { font-size: 20px; font-weight: 500; opacity: .8; line-height: 1.4; }
+  .body { font-size: 14px; line-height: 1.7; }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    height: 56px; padding: 0 28px; border-radius: 999px;
+    font: 600 15px/1 var(--font); border: 0; cursor: pointer;
+    transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .3s;
+  }
+  .btn:hover { transform: scale(1.05); box-shadow: 0 14px 30px -10px rgba(0,0,0,.45); }
+  .btn:active { transform: scale(.95); transition-duration: .1s; }
+  .btn-dark { background: #000; color: var(--white); }
+  .btn-yellow { background: var(--yellow); color: #000; }
+  .btn-outline { background: transparent; color: #000; border: 2px solid rgba(0,0,0,.2); }
+  .btn-outline-light { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,.2); }
+  .btn .arrow {
+    width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--yellow); color: #000; margin-right: -14px;
+  }
+  .btn-yellow .arrow { background: #000; color: var(--yellow); }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: fixed; top: 16px; left: 0; right: 0; z-index: 50;
+    pointer-events: none;
+  }
+  .nav-inner {
+    pointer-events: auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px; padding: 0 10px 0 24px; border-radius: 999px;
+    background: rgba(10,10,10,.08);
+    backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(0,0,0,.08);
+    color: #000;
+    transition: background .5s var(--ease), color .5s var(--ease), border-color .5s;
+  }
+  nav.dark .nav-inner {
+    background: rgba(23,23,23,.6); color: var(--white); border-color: rgba(255,255,255,.12);
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; }
+  .logo-mark {
+    width: 34px; height: 34px; border-radius: 12px 12px 12px 4px;
+    background: #000; color: var(--yellow); display: grid; place-items: center;
+    font-size: 15px; font-weight: 900; letter-spacing: -0.06em;
+  }
+  nav.dark .logo-mark { background: var(--yellow); color: #000; }
+  .logo b { font-weight: 900; }
+  .nav-links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
+  .nav-links a { opacity: .75; transition: opacity .2s; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-inner .btn { height: 44px; padding: 0 22px; font-size: 14px; }
+  nav.dark .nav-inner .btn-dark { background: var(--yellow); color: #000; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative; background: var(--yellow); color: #000;
+    border-radius: 0 0 120px 40px;
+    padding: 150px 0 200px;
+    overflow: hidden;
+    z-index: 2;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center; }
+  .hero .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 16px 8px 8px; border-radius: 999px;
+    background: #000; color: var(--white); margin-bottom: 32px;
+  }
+  .hero .badge .dot {
+    padding: 4px 10px; border-radius: 999px; background: var(--yellow); color: #000;
+    font-size: 10px; font-weight: 700; letter-spacing: .15em;
+  }
+  .hero .badge span:last-child { font-size: 13px; font-weight: 500; }
+  .hero h1 { margin-bottom: 32px; }
+  .hero h1 .outline {
+    color: transparent; -webkit-text-stroke: 2px #000;
+  }
+  .hero .sub { max-width: 480px; margin-bottom: 40px; }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-meta { display: flex; gap: 32px; margin-top: 56px; flex-wrap: wrap; }
+  .hero-meta div { display: flex; flex-direction: column; gap: 6px; }
+  .hero-meta strong { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; }
+  .hero-meta .label { opacity: .6; }
+
+  /* hero blob shapes (black liquid) */
+  .blob {
+    position: absolute; background: #000; z-index: -1;
+  }
+  .blob-1 {
+    width: 620px; height: 620px; right: -160px; top: 80px;
+    border-radius: 58% 42% 46% 54% / 52% 60% 40% 48%;
+    animation: morph 18s ease-in-out infinite;
+  }
+  @keyframes morph {
+    0%,100% { border-radius: 58% 42% 46% 54% / 52% 60% 40% 48%; transform: rotate(0deg); }
+    50% { border-radius: 40% 60% 62% 38% / 44% 38% 62% 56%; transform: rotate(12deg); }
+  }
+
+  /* ---------- Glass ---------- */
+  .glass {
+    background: rgba(255,255,255,.10);
+    backdrop-filter: blur(40px) saturate(1.5); -webkit-backdrop-filter: blur(40px) saturate(1.5);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 32px;
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.15);
+  }
+  .hero-visual .glass { background: rgba(10,10,10,.62); }
+  .float { animation: drift 8s ease-in-out infinite; }
+  .float.delay { animation-delay: -4s; }
+  @keyframes drift {
+    0%,100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50% { transform: translateY(-14px) rotate(var(--r, 0deg)); }
+  }
+
+  .hero-visual { position: relative; height: 560px; }
+  .card-balance {
+    position: absolute; top: 40px; left: 0; right: 30px;
+    padding: 28px; color: var(--white);
+    --r: -3deg;
+  }
+  .card-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+  .card-head .label { color: var(--muted); }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border-radius: 999px;
+    background: var(--yellow); color: #000;
+    font-size: 11px; font-weight: 700; letter-spacing: .04em;
+  }
+  .amount { font-size: 48px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .amount small { font-size: 22px; opacity: .5; font-weight: 600; }
+  .delta { margin-top: 10px; font-size: 13px; color: var(--yellow); font-weight: 600; }
+  .bars { display: flex; align-items: flex-end; gap: 8px; height: 90px; margin-top: 28px; }
+  .bars i {
+    flex: 1; border-radius: 999px; background: rgba(255,255,255,.18);
+    transform-origin: bottom; animation: grow 1.4s var(--ease) both;
+  }
+  .bars i.on { background: var(--yellow); }
+  @keyframes grow { from { transform: scaleY(0); } }
+
+  .card-pix {
+    position: absolute; bottom: 30px; right: -10px; width: 280px;
+    padding: 22px; color: var(--white); --r: 4deg;
+  }
+  .tx { display: flex; align-items: center; gap: 12px; }
+  .tx-ico {
+    width: 44px; height: 44px; border-radius: 50%; flex: none;
+    background: var(--yellow); color: #000; display: grid; place-items: center;
+  }
+  .tx-txt { flex: 1; min-width: 0; }
+  .tx-txt b { display: block; font-size: 14px; font-weight: 600; }
+  .tx-txt span { font-size: 12px; color: var(--muted); }
+  .tx-val { font-weight: 700; font-size: 15px; }
+  .card-pix .progress { height: 6px; border-radius: 999px; background: rgba(255,255,255,.15); margin-top: 18px; overflow: hidden; }
+  .card-pix .progress i { display: block; height: 100%; width: 100%; background: var(--yellow); border-radius: 999px; animation: load 2.4s var(--ease) infinite; transform-origin: left; }
+  @keyframes load { 0% { transform: scaleX(0); } 70%,100% { transform: scaleX(1); } }
+
+  .card-mini {
+    position: absolute; bottom: 210px; left: -40px;
+    padding: 14px 20px 14px 14px; display: flex; align-items: center; gap: 12px;
+    border-radius: 999px; color: var(--white); --r: -2deg;
+  }
+  .card-mini .tx-ico { width: 36px; height: 36px; }
+  .card-mini b { font-size: 14px; }
+  .card-mini span { font-size: 11px; color: var(--muted); display: block; }
+
+  /* ---------- Trust strip (transition) ---------- */
+  .trust {
+    position: relative; z-index: 3; margin-top: -36px;
+    display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+    padding: 0 24px;
+  }
+  .trust-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 22px 12px 12px; border-radius: 999px;
+    background: var(--surface); border: 1px solid rgba(255,255,255,.1);
+    font-size: 13px; font-weight: 600; white-space: nowrap;
+    box-shadow: 0 20px 40px -12px rgba(0,0,0,.6);
+  }
+  .trust-badge .ico {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(253,224,71,.12); color: var(--yellow);
+    display: grid; place-items: center;
+  }
+
+  /* ---------- Void sections ---------- */
+  section { position: relative; }
+  .void { padding: 140px 0; overflow: hidden; }
+  .section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 72px; flex-wrap: wrap; }
+  .section-head .label { color: var(--yellow); display: block; margin-bottom: 20px; }
+  .section-head p { max-width: 360px; color: var(--muted); }
+
+  .features { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+  .feat {
+    background: var(--surface); border: 1px solid rgba(255,255,255,.06);
+    border-radius: 40px; padding: 36px; position: relative; overflow: hidden;
+    transition: transform .6s var(--ease), border-color .4s;
+    min-height: 300px; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .feat:hover { transform: translateY(-6px); border-color: rgba(253,224,71,.4); }
+  .feat .num { font-size: 10px; letter-spacing: .22em; color: var(--muted); font-weight: 600; }
+  .feat h3 { font-size: 30px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; margin: 14px 0 12px; }
+  .feat p { color: var(--muted); max-width: 340px; }
+  .feat .f-ico {
+    width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--gray); color: var(--yellow);
+  }
+  .f-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .span-7 { grid-column: span 7; } .span-5 { grid-column: span 5; }
+  .span-4 { grid-column: span 4; } .span-8 { grid-column: span 8; }
+
+  .feat.yellow { background: var(--yellow); color: #000; border-radius: 40px 40px 100px 40px; }
+  .feat.yellow p, .feat.yellow .num { color: rgba(0,0,0,.65); }
+  .feat.yellow .f-ico { background: #000; color: var(--yellow); }
+  .feat.yellow:hover { border-color: transparent; }
+  .feat .big-stat { font-size: clamp(64px, 8vw, 110px); font-weight: 800; letter-spacing: -0.05em; line-height: .9; }
+
+  .methods { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+  .methods span {
+    padding: 8px 14px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    border: 1px solid rgba(255,255,255,.15);
+  }
+  .methods span.on { background: var(--white); color: #000; border-color: var(--white); }
+
+  .code {
+    margin-top: 24px; background: var(--void); border-radius: 24px; padding: 20px 22px;
+    font: 12.5px/1.75 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: rgba(255,255,255,.75); border: 1px solid rgba(255,255,255,.06); overflow-x: auto;
+  }
+  .code .k { color: var(--yellow); } .code .s { color: #fff; } .code .c { color: rgba(255,255,255,.35); }
+
+  /* ---------- Liquid band (yellow bleeding into void) ---------- */
+  .band {
+    background: var(--yellow); color: #000;
+    border-radius: 140px 40px 140px 40px;
+    margin: 0 16px; padding: 110px 0;
+    position: relative; overflow: hidden;
+  }
+  .band::after {
+    content: ""; position: absolute; width: 420px; height: 420px; left: -140px; bottom: -220px;
+    background: #000; border-radius: 50% 40% 60% 45%;
+  }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; position: relative; z-index: 1; }
+  .step {
+    background: #000; color: var(--white); border-radius: 40px; padding: 36px;
+    min-height: 280px; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .step:nth-child(2) { transform: translateY(40px); }
+  .step:nth-child(3) { transform: translateY(80px); }
+  .step .n {
+    width: 52px; height: 52px; border-radius: 50%; background: var(--yellow); color: #000;
+    display: grid; place-items: center; font-weight: 800; font-size: 18px;
+  }
+  .step h4 { font-size: 26px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 10px; }
+  .step p { color: var(--muted); }
+  .band .section-head p { color: rgba(0,0,0,.65); }
+  .band .section-head .label { color: #000; opacity: .6; }
+
+  /* ---------- Pricing ---------- */
+  .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .rate {
+    position: relative; padding: 40px 36px; border-radius: 40px;
+    background: var(--surface); border: 1px solid rgba(255,255,255,.06);
+  }
+  .rate .label { color: var(--muted); }
+  .rate .val { font-size: 72px; font-weight: 800; letter-spacing: -0.05em; line-height: 1; margin: 22px 0 6px; }
+  .rate .val sup { font-size: 28px; vertical-align: top; position: relative; top: 10px; margin-left: 2px; }
+  .rate ul { list-style: none; margin-top: 28px; display: grid; gap: 12px; }
+  .rate li { display: flex; gap: 10px; align-items: center; font-size: 14px; color: rgba(255,255,255,.8); }
+  .rate li::before {
+    content: ""; width: 18px; height: 18px; border-radius: 50%; flex: none;
+    background: var(--yellow) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/11px no-repeat;
+  }
+  .rate.hot {
+    background: rgba(255,255,255,.06);
+    backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255,255,255,.2);
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,.8);
+  }
+  .rate .pill { position: absolute; top: 28px; right: 28px; }
+  .pricing-glow {
+    position: absolute; width: 520px; height: 520px; left: 50%; top: 55%;
+    transform: translate(-50%, -50%); border-radius: 50%;
+    background: var(--yellow); filter: blur(120px); opacity: .14; pointer-events: none;
+  }
+
+  /* ---------- Ticker ---------- */
+  .ticker { padding: 40px 0 120px; overflow: hidden; }
+  body > * { max-width: 100vw; }
+  .ticker .label { text-align: center; color: var(--muted); margin-bottom: 36px; display: block; }
+  .ticker-track { display: flex; width: max-content; animation: scroll 36s linear infinite; }
+  .ticker:hover .ticker-track { animation-play-state: paused; }
+  .ticker-row { display: flex; gap: 72px; padding-right: 72px; align-items: center; }
+  .partner {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 24px; font-weight: 700; letter-spacing: -0.03em;
+    color: rgba(255,255,255,.35); white-space: nowrap; transition: color .3s;
+  }
+  .partner:hover { color: var(--white); }
+  .partner svg { opacity: .9; }
+  @keyframes scroll { to { transform: translateX(-50%); } }
+  .ticker-mask {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  /* ---------- CTA ---------- */
+  .cta {
+    margin: 0 16px; background: var(--yellow); color: #000;
+    border-radius: 40px 160px 40px 160px; padding: 120px 0; position: relative; overflow: hidden;
+  }
+  .cta-inner { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .cta h2 { max-width: 760px; }
+  .cta .blob-2 {
+    position: absolute; width: 360px; height: 360px; right: -80px; top: -140px;
+    background: #000; border-radius: 45% 55% 40% 60% / 55% 45% 55% 45%;
+    animation: morph 16s ease-in-out infinite;
+  }
+
+  /* ---------- Footer ---------- */
+  footer { padding: 90px 0 40px; }
+  .foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; }
+  .foot-grid h5 { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; font-weight: 600; }
+  .foot-grid ul { list-style: none; display: grid; gap: 12px; font-size: 14px; }
+  .foot-grid ul a { opacity: .8; } .foot-grid ul a:hover { opacity: 1; color: var(--yellow); }
+  .foot-grid .logo-mark { background: var(--yellow); color: #000; }
+  .foot-grid p { color: var(--muted); max-width: 300px; margin-top: 18px; }
+  .foot-bottom {
+    margin-top: 80px; padding-top: 28px; border-top: 1px solid var(--gray);
+    display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    font-size: 12px; color: rgba(255,255,255,.45);
+  }
+  .giant {
+    font-size: clamp(90px, 24vw, 340px); font-weight: 900; letter-spacing: -0.07em;
+    line-height: .8; color: var(--surface); margin-top: 70px; text-align: center;
+    user-select: none;
+  }
+  .giant span { color: var(--yellow); }
+
+  /* ---------- Reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(60px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+  .step.reveal.in:nth-child(2) { transform: translateY(40px); }
+  .step.reveal.in:nth-child(3) { transform: translateY(80px); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1020px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { height: 520px; max-width: 520px; width: 100%; margin: 20px auto 0; }
+    .card-mini { left: 0; }
+    .span-7, .span-5, .span-4, .span-8 { grid-column: span 12; }
+    .steps, .pricing { grid-template-columns: 1fr; }
+    .step:nth-child(n), .step.reveal.in:nth-child(n) { transform: none; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .wrap { padding: 0 16px; }
+    .hero { padding: 120px 0 140px; border-radius: 0 0 72px 28px; }
+    .hero h1 .outline { -webkit-text-stroke-width: 1.5px; }
+    .hero-visual { height: 470px; }
+    .blob-1 { width: 460px; height: 460px; right: -200px; top: auto; bottom: 40px; }
+    .cta .blob-2 { width: 200px; height: 200px; right: -90px; top: -110px; }
+    .card-balance { right: 0; padding: 22px; }
+    .amount { font-size: 38px; }
+    .card-pix { width: 240px; right: 0; }
+    .card-mini { bottom: 190px; }
+    .void { padding: 100px 0; }
+    .band, .cta { margin: 0 8px; border-radius: 72px 28px 72px 28px; padding: 80px 0; }
+    .feat { padding: 28px; border-radius: 32px; }
+    .feat.yellow { border-radius: 32px 32px 72px 32px; }
+    .trust-badge { font-size: 12px; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .nav-inner { padding-left: 16px; }
+    nav .wrap { padding: 0 12px; }
+    .btn { height: 52px; padding: 0 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="wrap">
+    <div class="nav-inner">
+      <a href="#" class="logo" aria-label="Lx PAY">
+        <span class="logo-mark">Lx</span>
+        <span>Lx <b>PAY</b></span>
+      </a>
+      <div class="nav-links">
+        <a href="#recursos">Recursos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#taxas">Taxas</a>
+        <a href="#dev">Desenvolvedores</a>
+      </div>
+      <a href="#comecar" class="btn btn-dark">Criar conta</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="blob blob-1" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <div class="badge">
+        <span class="dot">NOVO</span>
+        <span>Saque via Pix em segundos</span>
+      </div>
+      <h1 class="h-hero">Receba.<br>Sem <span class="outline">atrito.</span></h1>
+      <p class="sub">O gateway de pagamentos que aprova mais, cobra menos e coloca o dinheiro na sua conta na hora.</p>
+      <div class="hero-ctas">
+        <a href="#comecar" class="btn btn-dark">Começar agora
+          <span class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+        </a>
+        <a href="#taxas" class="btn btn-outline">Ver taxas</a>
+      </div>
+      <div class="hero-meta">
+        <div><strong>98,4%</strong><span class="label">Aprovação</span></div>
+        <div><strong>D+0</strong><span class="label">Recebimento</span></div>
+        <div><strong>24/7</strong><span class="label">Suporte humano</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal" aria-hidden="true">
+      <div class="glass card-balance float">
+        <div class="card-head">
+          <div>
+            <span class="label">Saldo disponível</span>
+          </div>
+          <span class="pill">Sacar
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="amount">R$ 84.920<small>,37</small></div>
+        <div class="delta">↑ 32,8% vs. mês anterior</div>
+        <div class="bars">
+          <i style="height:38%;animation-delay:.05s"></i>
+          <i style="height:55%;animation-delay:.1s"></i>
+          <i style="height:42%;animation-delay:.15s"></i>
+          <i style="height:70%;animation-delay:.2s"></i>
+          <i style="height:52%;animation-delay:.25s"></i>
+          <i style="height:80%;animation-delay:.3s"></i>
+          <i style="height:64%;animation-delay:.35s"></i>
+          <i class="on" style="height:100%;animation-delay:.4s"></i>
+        </div>
+      </div>
+
+      <div class="glass card-mini float delay">
+        <div class="tx-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+        </div>
+        <div><b>Venda aprovada</b><span>Cartão · 3x sem juros</span></div>
+      </div>
+
+      <div class="glass card-pix float delay">
+        <div class="card-head" style="margin-bottom:18px">
+          <span class="label">Pix recebido</span>
+          <span class="label" style="color:var(--yellow)">Agora</span>
+        </div>
+        <div class="tx">
+          <div class="tx-ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l3.6 3.6-3.6 3.6-3.6-3.6L12 2.5zm-5.9 5.9l3.6 3.6-3.6 3.6L2.5 12l3.6-3.6zm11.8 0l3.6 3.6-3.6 3.6-3.6-3.6 3.6-3.6zM12 14.3l3.6 3.6-3.6 3.6-3.6-3.6 3.6-3.6z"/></svg>
+          </div>
+          <div class="tx-txt"><b>Marina S.</b><span>Pedido #48213</span></div>
+          <div class="tx-val">+R$ 297</div>
+        </div>
+        <div class="progress"><i></i></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TRUST (transition) -->
+<div class="trust">
+  <span class="trust-badge"><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7l8-4z"/><path d="M9 12l2 2 4-4"/></svg></span>PCI DSS Nível 1</span>
+  <span class="trust-badge"><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/></svg></span>Melhor Gateway 2026</span>
+  <span class="trust-badge"><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>Antifraude com IA</span>
+</div>
+
+<!-- FEATURES -->
+<section class="void" id="recursos">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="label">Recursos</span>
+        <h2 class="h-xl">Tudo que você<br>precisa pra vender.</h2>
+      </div>
+      <p class="body">Uma única integração para Pix, cartão e boleto — com checkout otimizado, antifraude e dashboard em tempo real.</p>
+    </div>
+
+    <div class="features">
+      <article class="feat yellow span-7 reveal">
+        <div class="f-top">
+          <span class="num">01 — APROVAÇÃO</span>
+          <div class="f-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+        </div>
+        <div>
+          <div class="big-stat">98,4%</div>
+          <h3>Mais vendas aprovadas.</h3>
+          <p class="body">Roteamento inteligente entre adquirentes e retentativa automática. Cada venda recusada é dinheiro perdido — a gente não deixa.</p>
+        </div>
+      </article>
+
+      <article class="feat span-5 reveal">
+        <div class="f-top">
+          <span class="num">02 — PIX</span>
+          <div class="f-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></div>
+        </div>
+        <div>
+          <h3>Saque instantâneo, 24/7.</h3>
+          <p class="body">Seu saldo cai na conta em segundos. Sem esperar D+30, sem burocracia, inclusive fim de semana.</p>
+        </div>
+      </article>
+
+      <article class="feat span-4 reveal">
+        <div class="f-top">
+          <span class="num">03 — CHECKOUT</span>
+          <div class="f-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg></div>
+        </div>
+        <div>
+          <h3>Checkout que converte.</h3>
+          <p class="body">Uma página, um clique, zero fricção.</p>
+          <div class="methods">
+            <span class="on">Pix</span><span>Cartão</span><span>Boleto</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="feat span-8 reveal" id="dev">
+        <div class="f-top">
+          <span class="num">04 — API</span>
+          <div class="f-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></div>
+        </div>
+        <div>
+          <h3>Integre em minutos.</h3>
+          <p class="body">API REST limpa, webhooks confiáveis e SDKs prontos.</p>
+          <pre class="code"><span class="c">// Cobrança Pix em 4 linhas</span>
+<span class="k">const</span> charge = <span class="k">await</span> lxpay.charges.create({
+  amount: <span class="s">29700</span>, method: <span class="s">'pix'</span>,
+  customer: { email: <span class="s">'marina@email.com'</span> }
+});</pre>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS (liquid band) -->
+<section class="band" id="como-funciona">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="label">Como funciona</span>
+        <h2 class="h-xl">Três passos.<br>Zero dor de cabeça.</h2>
+      </div>
+      <p class="body">Do cadastro à primeira venda em menos de 10 minutos.</p>
+    </div>
+    <div class="steps" style="padding-bottom:80px">
+      <div class="step reveal">
+        <span class="n">1</span>
+        <div><h4>Crie sua conta</h4><p class="body">Cadastro 100% online com aprovação em minutos. Sem fidelidade e sem mensalidade.</p></div>
+      </div>
+      <div class="step reveal">
+        <span class="n">2</span>
+        <div><h4>Conecte sua loja</h4><p class="body">Plugins prontos para as principais plataformas ou integração direta via API.</p></div>
+      </div>
+      <div class="step reveal">
+        <span class="n">3</span>
+        <div><h4>Venda e saque</h4><p class="body">Acompanhe tudo em tempo real e saque quando quiser, direto no Pix.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="void" id="taxas">
+  <div class="pricing-glow" aria-hidden="true"></div>
+  <div class="wrap" style="position:relative">
+    <div class="section-head reveal">
+      <div>
+        <span class="label">Taxas</span>
+        <h2 class="h-xl">Transparente.<br>Sempre.</h2>
+      </div>
+      <p class="body">Sem taxa de adesão, sem mensalidade, sem letra miúda. Você só paga quando vende.</p>
+    </div>
+    <div class="pricing">
+      <div class="rate reveal">
+        <span class="label">Pix</span>
+        <div class="val">0,99<sup>%</sup></div>
+        <p class="body" style="color:var(--muted)">por transação aprovada</p>
+        <ul><li>Recebimento D+0</li><li>QR Code dinâmico</li><li>Confirmação instantânea</li></ul>
+      </div>
+      <div class="rate hot reveal">
+        <span class="pill">Popular</span>
+        <span class="label">Cartão de crédito</span>
+        <div class="val">3,99<sup>%</sup></div>
+        <p class="body" style="color:var(--muted)">+ R$ 0,49 por transação</p>
+        <ul><li>Parcelamento em até 12x</li><li>Antifraude incluso</li><li>Antecipação automática</li></ul>
+      </div>
+      <div class="rate reveal">
+        <span class="label">Boleto</span>
+        <div class="val">R$ 2<sup>,49</sup></div>
+        <p class="body" style="color:var(--muted)">por boleto compensado</p>
+        <ul><li>Vencimento personalizado</li><li>Lembretes automáticos</li><li>Conciliação automática</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER TICKER -->
+<section class="ticker" aria-label="Integrações">
+  <span class="label">Integrado com as plataformas que você já usa</span>
+  <div class="ticker-mask">
+    <div class="ticker-track">
+      <div class="ticker-row">
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>Northwind</span>
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l10 20H2z"/></svg>Vertex</span>
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="5"/></svg>Kubo</span>
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20V2z"/></svg>Halfmoon</span>
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v6H4zM4 14h10v6H4z"/></svg>Stackly</span>
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>Nova</span>
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M2 12c4-8 16-8 20 0-4 8-16 8-20 0z"/></svg>Lumen</span>
+      </div>
+      <div class="ticker-row" aria-hidden="true">
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>Northwind</span>
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l10 20H2z"/></svg>Vertex</span>
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="5"/></svg>Kubo</span>
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20V2z"/></svg>Halfmoon</span>
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v6H4zM4 14h10v6H4z"/></svg>Stackly</span>
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>Nova</span>
+        <span class="partner"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M2 12c4-8 16-8 20 0-4 8-16 8-20 0z"/></svg>Lumen</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="comecar">
+  <div class="blob-2" aria-hidden="true"></div>
+  <div class="wrap cta-inner reveal">
+    <div>
+      <span class="label" style="opacity:.6;display:block;margin-bottom:20px">Comece hoje</span>
+      <h2 class="h-xl">Sua próxima venda já pode cair no Pix.</h2>
+    </div>
+    <div class="hero-ctas">
+      <a href="#" class="btn btn-dark">Criar conta grátis
+        <span class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+      </a>
+      <a href="#" class="btn btn-outline">Falar com vendas</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#" class="logo"><span class="logo-mark">Lx</span><span>Lx <b>PAY</b></span></a>
+        <p class="body">Pagamentos rápidos, seguros e sem atrito para quem vende online.</p>
+      </div>
+      <div>
+        <h5>Produto</h5>
+        <ul><li><a href="#recursos">Recursos</a></li><li><a href="#taxas">Taxas</a></li><li><a href="#">Checkout</a></li><li><a href="#">Antifraude</a></li></ul>
+      </div>
+      <div>
+        <h5>Desenvolvedores</h5>
+        <ul><li><a href="#">Documentação</a></li><li><a href="#">API Reference</a></li><li><a href="#">Webhooks</a></li><li><a href="#">Status</a></li></ul>
+      </div>
+      <div>
+        <h5>Empresa</h5>
+        <ul><li><a href="#">Sobre</a></li><li><a href="#">Contato</a></li><li><a href="#">Termos de uso</a></li><li><a href="#">Privacidade</a></li></ul>
+      </div>
+    </div>
+    <div class="giant" aria-hidden="true">Lx<span>.</span>PAY</div>
+    <div class="foot-bottom">
+      <span>© 2026 Lx PAY. Todos os direitos reservados.</span>
+      <span>Feito para quem vende.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (e, i) {
+      e.style.transitionDelay = (e.parentElement.children.length > 1 ? (Array.prototype.indexOf.call(e.parentElement.children, e) % 4) * 0.08 : 0) + 's';
+      io.observe(e);
+    });
+  })();
+
+  // Nav switches to dark glass after leaving the yellow hero
+  (function () {
+    var nav = document.getElementById('nav');
+    var hero = document.querySelector('.hero');
+    function onScroll() {
+      var past = hero.getBoundingClientRect().bottom < 80;
+      nav.classList.toggle('dark', past);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+</body>
+</html>
