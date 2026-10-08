@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lx PAY — Pagamentos sem atrito</title>
+<title>Lx PAY</title>
 <meta name="description" content="Lx PAY: gateway de pagamentos com Pix, cartão e boleto. Aprovação alta, saque rápido e checkout que converte.">
 <style>
   :root {
@@ -14,6 +14,7 @@
     --white: #FFFFFF;
     --muted: rgba(255,255,255,.6);
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    color-scheme: dark;
     --font: "Inter", "General Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -66,7 +67,7 @@
 
   /* ---------- Nav ---------- */
   nav {
-    position: fixed; top: 16px; left: 0; right: 0; z-index: 50;
+    position: fixed; top: calc(16px + env(safe-area-inset-top, 0px)); left: 0; right: 0; z-index: 50;
     pointer-events: none;
   }
   .nav-inner {
@@ -430,8 +431,8 @@
   .giant span { color: var(--yellow); }
 
   /* ---------- Reveal ---------- */
-  .reveal { opacity: 0; transform: translateY(60px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); }
-  .reveal.in { opacity: 1; transform: none; }
+  .reveal { animation: rise 1.1s var(--ease) both; }
+  @keyframes rise { from { opacity: .001; transform: translateY(40px); } }
   .step.reveal.in:nth-child(2) { transform: translateY(40px); }
   .step.reveal.in:nth-child(3) { transform: translateY(80px); }
 
@@ -786,22 +787,5 @@
   </div>
 </footer>
 
-<script>
-  // Reveal on scroll
-  (function () {
-    var els = document.querySelectorAll('.reveal');
-    if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    els.forEach(function (e, i) {
-      e.style.transitionDelay = (e.parentElement.children.length > 1 ? (Array.prototype.indexOf.call(e.parentElement.children, e) % 4) * 0.08 : 0) + 's';
-      io.observe(e);
-    });
-  })();
-
-</script>
 </body>
 </html>
