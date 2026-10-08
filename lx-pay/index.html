@@ -91,9 +91,124 @@
   }
   nav.dark .logo-mark { background: var(--yellow); color: #000; }
   .logo b { font-weight: 900; }
-  .nav-links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
-  .nav-links a { opacity: .75; transition: opacity .2s; }
-  .nav-links a:hover { opacity: 1; }
+  .nav-links { display: flex; align-items: center; gap: 32px; font-size: 14px; font-weight: 500; }
+  .nav-links > a, .nav-trigger { opacity: .75; transition: opacity .2s; }
+  .nav-links > a:hover, .nav-trigger:hover, .nav-item.open .nav-trigger { opacity: 1; }
+  .nav-inner { position: relative; }
+  .nav-item { position: static; }
+  .nav-trigger {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: none; border: 0; color: inherit; cursor: pointer;
+    font: inherit; padding: 8px 0;
+  }
+  .nav-trigger .chev { transition: transform .35s var(--ease); }
+  .nav-item.open .nav-trigger .chev { transform: rotate(180deg); }
+  .nav-trigger:focus-visible, .nav-burger:focus-visible, .mm-link:focus-visible, .mm-promo:focus-visible {
+    outline: 2px solid var(--yellow); outline-offset: 3px; border-radius: 10px;
+  }
+
+  /* mega menu */
+  .mega {
+    position: absolute; top: calc(100% + 10px); left: 50%;
+    width: min(880px, calc(100vw - 32px));
+    display: grid; grid-template-columns: 1fr 1fr 270px; gap: 8px;
+    padding: 14px; border-radius: 28px;
+    background: #121212;
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,.85);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transform: translate(-50%, -8px) scale(.98); transform-origin: top center;
+    transition: opacity .3s var(--ease), transform .45s var(--ease), visibility 0s .3s;
+  }
+  .nav-item.open .mega {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transform: translate(-50%, 0) scale(1);
+    transition: opacity .3s var(--ease), transform .45s var(--ease);
+  }
+  .mm-col { display: flex; flex-direction: column; gap: 2px; padding: 6px; }
+  .mm-link {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px; border-radius: 14px;
+    font-size: 14px; font-weight: 600; color: var(--white);
+    transition: background .2s, transform .3s var(--ease);
+  }
+  .mm-link:hover { background: rgba(255,255,255,.06); transform: translateX(3px); }
+  .mm-ico {
+    width: 34px; height: 34px; border-radius: 11px; flex: none;
+    display: grid; place-items: center;
+    background: var(--gray); color: var(--yellow);
+    transition: background .2s, color .2s;
+  }
+  .mm-link:hover .mm-ico { background: var(--yellow); color: #000; }
+
+  .mm-promo {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    border-radius: 20px; padding: 16px; color: var(--white);
+    background: radial-gradient(120% 80% at 70% 0%, rgba(253,224,71,.28), transparent 60%), var(--surface);
+    border: 1px solid rgba(253,224,71,.18);
+    transition: border-color .3s, transform .4s var(--ease);
+  }
+  .mm-promo:hover { border-color: rgba(253,224,71,.5); transform: translateY(-2px); }
+  .mm-kicker { font-size: 9px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--yellow); }
+  .mm-promo strong { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; margin: 4px 0 4px; }
+  .mm-promo p { font-size: 12px; line-height: 1.5; color: rgba(255,255,255,.65); }
+  .mm-art { position: relative; height: 130px; margin-bottom: 12px; }
+  .plaque {
+    position: absolute; bottom: 0; width: 70px; height: 94px; border-radius: 8px;
+    background: #0b0b0b; border: 2px solid var(--yellow);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    box-shadow: 0 16px 30px -10px rgba(0,0,0,.9);
+  }
+  .plaque b { font-size: 18px; font-weight: 900; letter-spacing: -0.04em; color: var(--yellow); }
+  .plaque small { font-size: 6.5px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.7); }
+  .plaque.p1 { left: 10px; transform: rotate(-8deg); }
+  .plaque.p3 { right: 10px; transform: rotate(8deg); }
+  .plaque.p2 {
+    left: 50%; width: 84px; height: 118px; transform: translateX(-50%); z-index: 1;
+    background: var(--yellow); border-color: #000;
+  }
+  .plaque.p2 b { color: #000; font-size: 28px; }
+  .plaque.p2 small { color: rgba(0,0,0,.7); }
+  .mm-art-card { display: grid; place-items: center; }
+  .mini-cc {
+    width: 170px; aspect-ratio: 1.586; border-radius: 14px; padding: 12px 14px;
+    background: linear-gradient(140deg, #262626, #000); border: 1px solid rgba(255,255,255,.18);
+    display: flex; flex-direction: column; justify-content: space-between;
+    transform: rotate(-8deg); box-shadow: 0 20px 40px -12px rgba(0,0,0,.9), -14px 14px 40px -16px rgba(253,224,71,.5);
+  }
+  .mini-cc b { font-size: 13px; font-weight: 900; letter-spacing: -0.03em; }
+  .mini-cc b i { font-style: normal; color: var(--yellow); }
+  .mini-cc .chip { width: 28px; height: 21px; border-radius: 5px; }
+  .mini-cc em { font-style: normal; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+
+  /* mobile menu */
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+  .nav-burger {
+    display: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
+    background: var(--gray); border: 0; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  }
+  .nav-burger span { width: 16px; height: 2px; border-radius: 2px; background: var(--white); transition: transform .35s var(--ease); }
+  .nav-burger[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
+  .nav-burger[aria-expanded="true"] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+  .mobile-menu {
+    position: absolute; top: calc(100% + 10px); left: 0; right: 0;
+    max-height: calc(100vh - 120px); overflow-y: auto;
+    padding: 14px; border-radius: 24px;
+    background: #121212; border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,.85);
+    opacity: 0; visibility: hidden; transform: translateY(-8px);
+    transition: opacity .3s var(--ease), transform .4s var(--ease), visibility 0s .3s;
+  }
+  .mobile-menu.open { opacity: 1; visibility: visible; transform: none; transition: opacity .3s var(--ease), transform .4s var(--ease); }
+  .mobile-menu h6 {
+    font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--yellow); padding: 10px 12px 4px;
+  }
+  .mobile-menu .mm-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .mobile-menu .mm-link { font-size: 13px; padding: 8px 10px; gap: 10px; }
+  .mobile-menu .mm-ico { width: 30px; height: 30px; }
+  .mobile-menu .mm-plain { display: flex; gap: 8px; padding: 12px 8px 4px; border-top: 1px solid var(--gray); margin-top: 8px; }
+  .mobile-menu .mm-plain a { flex: 1; text-align: center; padding: 10px; border-radius: 999px; background: var(--gray); font-size: 13px; font-weight: 600; }
   .nav-inner .btn { height: 38px; padding: 0 18px; font-size: 13px; }
   nav.dark .nav-inner .btn-dark { background: var(--yellow); color: #000; }
 
@@ -474,6 +589,7 @@
     .step:nth-child(n), .step.reveal.in:nth-child(n) { transform: none; }
     .foot-grid { grid-template-columns: 1fr 1fr; }
     .nav-links { display: none; }
+    .nav-burger { display: inline-flex; }
   }
   @media (max-width: 600px) {
     .wrap { padding: 0 16px; }
@@ -498,6 +614,8 @@
     .trust-badge { font-size: 12px; }
     .foot-grid { grid-template-columns: 1fr; }
     .nav-inner { padding-left: 16px; }
+    .nav-right .btn { display: none; }
+    .mobile-menu .mm-grid { grid-template-columns: 1fr; }
     nav .wrap { padding: 0 12px; }
     .btn { height: 42px; padding: 0 18px; font-size: 13px; }
   }
@@ -518,12 +636,70 @@
         <span>Lx <b>PAY</b></span>
       </a>
       <div class="nav-links">
-        <a href="#recursos">Recursos</a>
-        <a href="#como-funciona">Como funciona</a>
+        <div class="nav-item">
+          <button class="nav-trigger" type="button" id="trg-solucoes" aria-expanded="false" aria-controls="mm-solucoes">Soluções <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="mega" id="mm-solucoes" role="region" aria-labelledby="trg-solucoes">
+            <div class="mm-col">
+            <a href="#recursos" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/></svg></span><span>Checkout transparente</span></a>
+            <a href="#recursos" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></span><span>Link de pagamento</span></a>
+            <a href="#recursos" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg></span><span>Assinaturas</span></a>
+            </div>
+            <div class="mm-col">
+            <a href="#recursos" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12L5 4M12 12l7-8M5 4v4M5 4h4M19 4v4M19 4h-4"/></svg></span><span>Split de pagamento</span></a>
+            <a href="#recursos" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M10 9l5 3-5 3z"/></svg></span><span>Infoprodutos</span></a>
+            <a href="#recursos" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v2a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z"/><path d="M5 13v7h14v-7"/></svg></span><span>E-commerce</span></a>
+            </div>
+            <a href="#comecar" class="mm-promo">
+              <div class="mm-art mm-art-card" aria-hidden="true">
+                <div class="mini-cc"><b>Lx <i>PAY</i></b><span class="chip"></span><em>Business</em></div>
+              </div>
+              <span class="mm-kicker">Lx PAY Business</span>
+              <strong>Taxas sob medida</strong>
+              <p>Faturando mais de R$ 100 mil por mês? Fale com a gente e negocie suas taxas.</p>
+            </a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <button class="nav-trigger" type="button" id="trg-recursos" aria-expanded="false" aria-controls="mm-recursos">Recursos <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="mega" id="mm-recursos" role="region" aria-labelledby="trg-recursos">
+            <div class="mm-col">
+            <a href="#taxas" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l4 4-4 4-4-4z"/><path d="M6.5 8l4 4-4 4-4-4zM17.5 8l4 4-4 4-4-4zM12 13.5l4 4-4 4-4-4z"/></svg></span><span>Métodos de pagamento</span></a>
+            <a href="#recursos" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span><span>Antifraude com IA</span></a>
+            <a href="#dev" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v5M15 2v5M6 7h12v4a6 6 0 0 1-12 0z"/><path d="M12 17v5"/></svg></span><span>Integrações</span></a>
+            <a href="#dev" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 13v1M15 13v1M2 13v3M22 13v3"/></svg></span><span>Bot de Discord</span></a>
+            <a href="#recursos" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6"/></svg></span><span>Gestão de clientes</span></a>
+            <a href="#recursos" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11l4-4 3 3 4-4"/><path d="M3 13l5 5h8l5-5"/><path d="M3 13l3-3M21 13l-3-3"/></svg></span><span>Afiliados</span></a>
+            </div>
+            <div class="mm-col">
+            <a href="#recursos" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4M4 20h16"/><path d="M8 16v-5M12 16V8M16 16v-3"/></svg></span><span>Analytics</span></a>
+            <a href="#recursos" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 12h11.5l2-8H6"/></svg></span><span>Carrinho abandonado</span></a>
+            <a href="#" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.4A8 8 0 1 1 21 12z"/></svg></span><span>Comunidade</span></a>
+            <a href="#dev" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></span><span>Documentação</span></a>
+            <a href="#" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg></span><span>Blog</span></a>
+            <a href="#" class="mm-link"><span class="mm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg></span><span>FAQ</span></a>
+            </div>
+            <a href="#" class="mm-promo">
+              <div class="mm-art" aria-hidden="true">
+                <div class="plaque p1"><b>100K</b><small>em vendas</small></div>
+                <div class="plaque p2"><b>1M</b><small>em vendas</small></div>
+                <div class="plaque p3"><b>500K</b><small>em vendas</small></div>
+              </div>
+              <span class="mm-kicker">Programa de recompensas</span>
+              <strong>Premiações</strong>
+              <p>Bata metas de faturamento e receba placas Lx PAY de verdade.</p>
+            </a>
+          </div>
+        </div>
         <a href="#taxas">Taxas</a>
         <a href="#dev">Desenvolvedores</a>
       </div>
-      <a href="#comecar" class="btn btn-dark">Criar conta</a>
+      <div class="nav-right">
+        <a href="#comecar" class="btn btn-dark">Criar conta</a>
+        <button class="nav-burger" type="button" id="nav-burger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menu">
+          <span></span><span></span>
+        </button>
+      </div>
+      <div class="mobile-menu" id="mobile-menu"></div>
     </div>
   </div>
 </nav>
@@ -812,6 +988,62 @@
     </div>
   </div>
 </footer>
+
+<script>
+  // Mega menu: opens on click, closes on outside click or Esc
+  (function () {
+    var items = document.querySelectorAll('.nav-item');
+    function closeAll(except) {
+      items.forEach(function (it) {
+        if (it === except) return;
+        it.classList.remove('open');
+        it.querySelector('.nav-trigger').setAttribute('aria-expanded', 'false');
+      });
+    }
+    items.forEach(function (it) {
+      var btn = it.querySelector('.nav-trigger');
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = !it.classList.contains('open');
+        closeAll(it);
+        it.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      it.querySelectorAll('.mega a').forEach(function (a) { a.addEventListener('click', function () { closeAll(); }); });
+    });
+
+    // Mobile menu built from the same mega menu links
+    var burger = document.getElementById('nav-burger');
+    var mobile = document.getElementById('mobile-menu');
+    items.forEach(function (it) {
+      var h = document.createElement('h6');
+      h.textContent = it.querySelector('.nav-trigger').textContent.trim();
+      var grid = document.createElement('div');
+      grid.className = 'mm-grid';
+      it.querySelectorAll('.mm-link').forEach(function (a) { grid.appendChild(a.cloneNode(true)); });
+      mobile.appendChild(h); mobile.appendChild(grid);
+    });
+    var plain = document.createElement('div');
+    plain.className = 'mm-plain';
+    plain.innerHTML = '<a href="#taxas">Taxas</a><a href="#comecar" style="background:var(--yellow);color:#000">Criar conta</a>';
+    mobile.appendChild(plain);
+    function setMobile(open) {
+      mobile.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    }
+    burger.addEventListener('click', function (e) { e.stopPropagation(); setMobile(!mobile.classList.contains('open')); });
+    mobile.addEventListener('click', function (e) { if (e.target.closest('a')) setMobile(false); });
+
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.mega')) closeAll();
+      if (!e.target.closest('.mobile-menu')) setMobile(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { closeAll(); setMobile(false); }
+    });
+  })();
+</script>
 
 </body>
 </html>
