@@ -49,8 +49,8 @@
   /* ---------- Buttons ---------- */
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    height: 56px; padding: 0 28px; border-radius: 999px;
-    font: 600 15px/1 var(--font); border: 0; cursor: pointer;
+    height: 44px; padding: 0 20px; border-radius: 999px;
+    font: 600 14px/1 var(--font); border: 0; cursor: pointer;
     transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .3s;
   }
   .btn:hover { transform: scale(1.05); box-shadow: 0 14px 30px -10px rgba(0,0,0,.45); }
@@ -60,8 +60,8 @@
   .btn-outline { background: transparent; color: #000; border: 2px solid rgba(0,0,0,.2); }
   .btn-outline-light { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,.2); }
   .btn .arrow {
-    width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
-    background: var(--yellow); color: #000; margin-right: -14px;
+    width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--yellow); color: #000; margin-right: -10px;
   }
   .btn-yellow .arrow { background: #000; color: var(--yellow); }
 
@@ -94,7 +94,7 @@
   .nav-links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
   .nav-links a { opacity: .75; transition: opacity .2s; }
   .nav-links a:hover { opacity: 1; }
-  .nav-inner .btn { height: 44px; padding: 0 22px; font-size: 14px; }
+  .nav-inner .btn { height: 38px; padding: 0 18px; font-size: 13px; }
   nav.dark .nav-inner .btn-dark { background: var(--yellow); color: #000; }
 
   /* ---------- Hero ---------- */
@@ -473,7 +473,7 @@
     .foot-grid { grid-template-columns: 1fr; }
     .nav-inner { padding-left: 16px; }
     nav .wrap { padding: 0 12px; }
-    .btn { height: 52px; padding: 0 22px; }
+    .btn { height: 42px; padding: 0 18px; font-size: 13px; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -520,7 +520,7 @@
         <p class="body lead">Pix, cartão e boleto numa única conta. Aprovação alta, antifraude com IA e o dinheiro das suas vendas disponível na hora — sem mensalidade e sem burocracia.</p>
         <div class="hero-ctas">
           <a href="#comecar" class="btn btn-yellow">Criar conta grátis
-            <span class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            <span class="arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
           </a>
           <a href="#taxas" class="btn btn-outline-light">Ver taxas</a>
         </div>
@@ -751,7 +751,7 @@
     </div>
     <div class="hero-ctas">
       <a href="#" class="btn btn-dark">Criar conta grátis
-        <span class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+        <span class="arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
       </a>
       <a href="#" class="btn btn-outline">Falar com vendas</a>
     </div>
