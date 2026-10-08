@@ -107,28 +107,6 @@
     outline: 2px solid var(--yellow); outline-offset: 3px; border-radius: 10px;
   }
 
-
-  /* nav, globe-hero layout */
-  nav.dark .nav-inner {
-    background: transparent; border-color: transparent;
-    backdrop-filter: none; -webkit-backdrop-filter: none;
-  }
-  nav.dark.scrolled .nav-inner {
-    background: rgba(14,14,14,.92); border-color: rgba(255,255,255,.1);
-    backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  }
-  .nav-links {
-    gap: 2px; padding: 5px; border-radius: 999px;
-    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
-    font-size: 13px;
-  }
-  .nav-links > a, .nav-trigger { padding: 8px 14px; border-radius: 999px; transition: opacity .2s, background .2s; }
-  .nav-links > a.active { opacity: 1; background: rgba(255,255,255,.1); }
-  .nav-links > a:hover, .nav-trigger:hover { background: rgba(255,255,255,.06); }
-  .nav-login { font-size: 14px; font-weight: 600; opacity: .85; padding: 0 10px; }
-  .nav-login:hover { opacity: 1; }
-  .nav-right .btn .arrow { width: 22px; height: 22px; }
-
   /* mega menu */
   .mega {
     position: absolute; top: calc(100% + 10px); left: 50%;
@@ -234,130 +212,87 @@
   .nav-inner .btn { height: 38px; padding: 0 18px; font-size: 13px; }
   nav.dark .nav-inner .btn-dark { background: var(--yellow); color: #000; }
 
-  /* ---------- Hero (globe) ---------- */
+  /* ---------- Hero ---------- */
   .hero {
     position: relative; color: var(--white);
     background:
-      radial-gradient(60% 45% at 50% 100%, rgba(253,224,71,.16), transparent 70%),
-      linear-gradient(180deg, #0d0d0d 0%, #0a0a0a 100%);
+      radial-gradient(55% 60% at 80% 88%, rgba(253,224,71,.42), transparent 62%),
+      radial-gradient(35% 40% at 68% 38%, rgba(253,224,71,.10), transparent 70%),
+      linear-gradient(160deg, #141414 0%, #0f0f0f 55%, #1a1708 100%);
     border-radius: 0 0 120px 40px;
-    border-bottom: 1px solid rgba(253,224,71,.14);
-    padding: 132px 0 64px;
+    border-bottom: 1px solid rgba(253,224,71,.18);
+    padding: 150px 0 110px;
     overflow: hidden;
     z-index: 2;
   }
-  .beam {
-    position: absolute; top: -120px; width: 220px; height: 900px; pointer-events: none;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.14) 45%, rgba(255,255,255,.22) 50%, rgba(255,255,255,.14) 55%, transparent);
-    filter: blur(28px); opacity: .55;
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .hero .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 16px 8px 8px; border-radius: 999px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+    color: var(--white); margin-bottom: 32px;
   }
-  .beam.b1 { left: 4%; transform: rotate(38deg); transform-origin: top; }
-  .beam.b2 { right: 6%; transform: rotate(-36deg); transform-origin: top; }
-  .beam.b3 { left: 18%; width: 90px; transform: rotate(32deg); transform-origin: top; opacity: .35; }
-  .hero-top { position: relative; z-index: 3; text-align: center; display: flex; flex-direction: column; align-items: center; }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 7px 14px 7px 8px; border-radius: 999px;
-    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12);
-    font-size: 12px; font-weight: 500; color: rgba(255,255,255,.8);
+  .hero .badge .dot {
+    padding: 4px 10px; border-radius: 999px; background: var(--yellow); color: #000;
+    font-size: 10px; font-weight: 700; letter-spacing: .15em;
   }
-  .hero-badge i {
-    width: 18px; height: 18px; border-radius: 50%; background: var(--yellow); color: #000;
-    display: grid; place-items: center;
-  }
-  .hero-word {
-    font-size: clamp(64px, 11.5vw, 168px); font-weight: 900; letter-spacing: -0.045em;
-    line-height: .86; margin: 22px 0 18px; white-space: nowrap;
-  }
-  .hero-word .silver {
-    background: linear-gradient(180deg, #ffffff 0%, #e6e6e6 38%, #9a9a9a 100%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
-  .hero-word .shout { color: var(--yellow); text-shadow: 0 0 60px rgba(253,224,71,.35); }
-  .hero-lead { max-width: 440px; font-size: 16px; line-height: 1.55; color: rgba(255,255,255,.72); margin-bottom: 26px; }
-  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-  .btn-ghost { background: rgba(255,255,255,.04); color: var(--white); border: 1px solid rgba(255,255,255,.18); }
-  .btn-ghost .play {
-    width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid currentColor;
-    display: grid; place-items: center; margin-left: -8px;
+  .hero .badge span:last-child { font-size: 13px; font-weight: 500; }
+  .hero h1 { font-size: clamp(46px, 6.6vw, 96px); margin-bottom: 28px; }
+  .hero h1 em { font-style: normal; color: var(--yellow); }
+  .hero .lead { max-width: 470px; margin-bottom: 40px; color: rgba(255,255,255,.62); }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* sparkles */
+  .spark { position: absolute; color: var(--white); animation: twinkle 3.6s ease-in-out infinite; pointer-events: none; }
+  .spark.y { color: var(--yellow); }
+  @keyframes twinkle {
+    0%,100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    50% { opacity: .35; transform: scale(.6) rotate(45deg); }
   }
 
-  .hero-mid { position: relative; height: 470px; margin-top: 0; }
-  #globe { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  #globe { -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent); mask-image: linear-gradient(180deg, #000 72%, transparent); }
-  .hero-cards { position: absolute; inset: 0; pointer-events: none; }
-  .hero-cards > * { pointer-events: auto; }
-  .hcard {
-    position: absolute; width: 268px; padding: 18px; border-radius: 22px; color: var(--white);
-    background: rgba(18,18,18,.72);
-    backdrop-filter: blur(24px) saturate(1.3); -webkit-backdrop-filter: blur(24px) saturate(1.3);
-    border: 1px solid rgba(255,255,255,.14);
-    box-shadow: 0 30px 60px -20px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.08);
+  /* 3D cards */
+  .stage { position: relative; height: 420px; perspective: 1400px; }
+  .stage-glow {
+    position: absolute; left: 50%; bottom: 30px; width: 80%; height: 120px;
+    transform: translateX(-50%); border-radius: 50%;
+    background: var(--yellow); filter: blur(70px); opacity: .45;
   }
-  .hcard.left { left: max(24px, calc(50% - 600px)); top: -120px; }
-  .hcard.right { right: max(24px, calc(50% - 600px)); top: -140px; width: 290px; }
-  .hc-label { font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); }
-  .hc-row { display: flex; justify-content: space-between; align-items: center; }
-  .live { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: var(--yellow); }
-  .live::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 0 rgba(253,224,71,.6); animation: ping 1.8s infinite; }
-  @keyframes ping { 70% { box-shadow: 0 0 0 7px rgba(253,224,71,0); } 100% { box-shadow: 0 0 0 0 rgba(253,224,71,0); } }
-  .hc-big { font-size: 38px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin: 14px 0 6px; font-variant-numeric: tabular-nums; }
-  .hc-sub { font-size: 12px; color: rgba(255,255,255,.6); }
-  .hc-people { display: flex; align-items: center; margin-top: 16px; }
-  .hc-people span {
-    width: 32px; height: 32px; border-radius: 50%; border: 2px solid #151515; margin-left: -8px;
-    display: grid; place-items: center; font-size: 10px; font-weight: 700; background: #3a3a3a; color: var(--white);
+  .stage-ring {
+    position: absolute; left: 50%; bottom: 80px; width: 74%; height: 70px;
+    transform: translateX(-50%); border-radius: 50%;
+    border: 1px solid rgba(253,224,71,.5);
+    box-shadow: 0 0 40px rgba(253,224,71,.25), inset 0 0 30px rgba(253,224,71,.2);
   }
-  .hc-people span:first-child { margin-left: 0; }
-  .hc-people span:nth-child(2) { background: #e9e9e9; color: #000; }
-  .hc-people span:nth-child(4) { background: #5a5a5a; }
-  .hc-people span.more { width: auto; padding: 0 10px; border-radius: 999px; background: var(--yellow); color: #000; font-size: 11px; }
-
-  .calc-field {
-    display: flex; align-items: center; gap: 8px; margin-top: 8px;
+  .cc-wrap { position: absolute; transform-style: preserve-3d; }
+  .cc-wrap.back { left: 8%; top: 80px; }
+  .cc-wrap.front { right: 4%; top: 30px; }
+  .cc {
+    width: min(320px, 28vw); aspect-ratio: 1.586; border-radius: 22px; padding: 20px 22px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; overflow: hidden;
   }
-  .calc-field input, .calc-out {
-    flex: 1; min-width: 0; font: 700 24px/1.2 var(--font); letter-spacing: -0.02em; color: var(--white);
-    background: transparent; border: 0; padding: 4px 0; font-variant-numeric: tabular-nums;
+  .cc::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.22) 45%, transparent 60%);
+    background-size: 250% 100%; animation: sheen 6s ease-in-out infinite;
   }
-  .calc-field input:focus { outline: none; }
-  .calc-field:focus-within { border-radius: 10px; box-shadow: 0 0 0 2px rgba(253,224,71,.35); }
-  .calc-field .cur { font-size: 15px; font-weight: 600; color: rgba(255,255,255,.55); }
-  .calc-select {
-    appearance: none; -webkit-appearance: none; cursor: pointer;
-    font: 600 12px var(--font); color: var(--white);
-    background: #222 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 10px center/10px no-repeat;
-    border: 1px solid rgba(255,255,255,.14); border-radius: 999px; padding: 7px 26px 7px 12px;
+  @keyframes sheen { 0%,100% { background-position: 120% 0; } 50% { background-position: -20% 0; } }
+  .cc.yellow {
+    background: var(--yellow); color: #000;
+    transform: rotateY(24deg) rotateX(6deg) rotateZ(-10deg);
+    box-shadow: 0 40px 70px -20px rgba(0,0,0,.7);
   }
-  .calc-select:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
-  .calc-tag {
-    display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px;
-    background: #222; border: 1px solid rgba(255,255,255,.14); font-size: 12px; font-weight: 600;
+  .cc.black {
+    background: linear-gradient(140deg, #262626 0%, #0d0d0d 45%, #000 100%);
+    border: 1px solid rgba(255,255,255,.16);
+    color: var(--white);
+    transform: rotateY(-20deg) rotateX(8deg) rotateZ(7deg);
+    box-shadow: 0 50px 90px -20px rgba(0,0,0,.9), 0 0 0 1px rgba(0,0,0,.4), -30px 30px 80px -30px rgba(253,224,71,.35);
   }
-  .calc-tag i { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); }
-  .calc-sep { position: relative; height: 1px; background: rgba(255,255,255,.1); margin: 14px 0; }
-  .calc-sep span {
-    position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
-    width: 26px; height: 26px; border-radius: 50%; background: #1b1b1b; border: 1px solid rgba(255,255,255,.14);
-    display: grid; place-items: center; color: rgba(255,255,255,.7);
-  }
-  .calc-meta { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; color: rgba(255,255,255,.6); margin: 14px 0 12px; }
-  .calc-meta b { color: var(--yellow); font-weight: 600; white-space: nowrap; }
-  .hcard .btn { width: 100%; height: 42px; font-size: 13px; justify-content: space-between; padding: 0 16px; }
-
-  .brands { position: relative; z-index: 3; text-align: center; margin-top: 4px; }
-  .brands .label { color: rgba(255,255,255,.45); display: block; margin-bottom: 18px; }
-  .brand-row { display: flex; justify-content: center; align-items: center; gap: 22px 44px; flex-wrap: wrap; color: rgba(255,255,255,.5); }
-  .brand { display: inline-flex; align-items: center; gap: 7px; font-size: 18px; font-weight: 700; letter-spacing: -0.02em; transition: color .2s; }
-  .brand:hover { color: var(--white); }
-  .brand.visa { font-style: italic; font-weight: 900; font-size: 21px; letter-spacing: .02em; }
-  .brand .mc { display: inline-flex; }
-  .brand .mc i { width: 17px; height: 17px; border-radius: 50%; background: currentColor; opacity: .75; }
-  .brand .mc i + i { margin-left: -7px; opacity: .45; }
-  .brand.mcw { font-size: 15px; font-weight: 600; }
-  .brand.elo { font-size: 22px; font-weight: 800; }
-  .brand small { font-size: 8px; letter-spacing: .1em; text-transform: uppercase; display: block; line-height: 1; opacity: .8; }
-
+  .cc-top { display: flex; justify-content: space-between; align-items: center; }
+  .cc-brand { font-weight: 900; font-size: 20px; letter-spacing: -0.04em; }
+  .cc-brand b { font-weight: 900; }
+  .cc-brand .tag { font-weight: 500; opacity: .6; font-size: 11px; letter-spacing: .2em; margin-left: 8px; }
   .chip {
     width: 50px; height: 38px; border-radius: 9px; position: relative;
     background: linear-gradient(135deg, #fff3a8, #FDE047 40%, #c9a800);
@@ -365,6 +300,50 @@
   .chip::before, .chip::after { content: ""; position: absolute; background: rgba(0,0,0,.28); }
   .chip::before { left: 33%; right: 33%; top: 0; bottom: 0; border-left: 1px solid rgba(0,0,0,.25); border-right: 1px solid rgba(0,0,0,.25); background: transparent; }
   .chip::after { left: 0; right: 0; top: 50%; height: 1px; }
+  .cc.yellow .chip { background: linear-gradient(135deg, #3a3a3a, #111); }
+  .cc.yellow .chip::before { border-color: rgba(255,255,255,.18); }
+  .cc.yellow .chip::after { background: rgba(255,255,255,.18); }
+  .cc-num { font: 600 clamp(11px, 1.2vw, 16px)/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .12em; white-space: nowrap; }
+  .cc-foot { display: flex; justify-content: space-between; align-items: flex-end; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+  .cc-foot small { display: block; font-size: 8px; opacity: .55; margin-bottom: 4px; }
+  .cc-logo { display: flex; }
+  .cc-logo i { width: 30px; height: 30px; border-radius: 50%; background: var(--yellow); }
+  .cc-logo i + i { background: rgba(255,255,255,.85); margin-left: -12px; mix-blend-mode: difference; }
+  .cc.yellow .cc-logo i { background: #000; }
+  .cc.yellow .cc-logo i + i { background: rgba(0,0,0,.45); mix-blend-mode: normal; }
+
+  /* hero bottom row */
+  .hero-bottom {
+    display: grid; grid-template-columns: 1fr 1fr auto 1.2fr; gap: 32px; align-items: center;
+    margin-top: 64px; padding-top: 36px; border-top: 1px solid rgba(255,255,255,.08);
+  }
+  .hf .n { color: var(--yellow); font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+  .hf b { display: block; color: var(--yellow); font-size: 15px; font-weight: 600; margin: 6px 0 6px; }
+  .hf p { font-size: 12px; line-height: 1.6; color: rgba(255,255,255,.6); max-width: 220px; }
+  .seal { position: relative; width: 136px; height: 136px; }
+  .seal svg.ring { width: 100%; height: 100%; animation: spin 22s linear infinite; }
+  .seal text { font-size: 10.5px; font-weight: 600; letter-spacing: .32em; text-transform: uppercase; fill: var(--white); }
+  .seal .core {
+    position: absolute; inset: 34px; border-radius: 50%; background: var(--yellow); color: #000;
+    display: grid; place-items: center; box-shadow: 0 0 40px rgba(253,224,71,.45);
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .users { display: flex; align-items: center; justify-content: flex-end; gap: 18px; }
+  .stat-box {
+    background: var(--yellow); color: #000; border-radius: 999px;
+    padding: 14px 26px; font-size: 32px; font-weight: 800; letter-spacing: -0.04em; line-height: 1;
+  }
+  .avatars { display: flex; }
+  .avatars span {
+    width: 44px; height: 44px; border-radius: 50%; border: 2px solid #111;
+    display: grid; place-items: center; font-size: 13px; font-weight: 700;
+    background: #2e2e2e; color: var(--white);
+  }
+  .avatars span + span { margin-left: -12px; }
+  .avatars span:nth-child(2) { background: #f5f5f5; color: #000; }
+  .avatars span:nth-child(3) { background: #4a4a4a; }
+  .avatars span.plus { background: var(--yellow); color: #000; font-size: 20px; }
+  .users .label { display: block; margin-top: 8px; color: rgba(255,255,255,.6); text-align: center; }
 
   @keyframes morph {
     0%,100% { border-radius: 58% 42% 46% 54% / 52% 60% 40% 48%; transform: rotate(0deg); }
@@ -600,6 +579,11 @@
 
   /* ---------- Responsive ---------- */
   @media (max-width: 1020px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .stage { height: 360px; max-width: 480px; width: 100%; margin: 10px auto 0; }
+    .cc { width: min(300px, 52vw); }
+    .hero-bottom { grid-template-columns: 1fr 1fr; }
+    .seal { justify-self: start; }
     .span-7, .span-5, .span-4, .span-8 { grid-column: span 12; }
     .steps, .pricing { grid-template-columns: 1fr; }
     .step:nth-child(n), .step.reveal.in:nth-child(n) { transform: none; }
@@ -609,6 +593,19 @@
   }
   @media (max-width: 600px) {
     .wrap { padding: 0 16px; }
+    .hero { padding: 120px 0 90px; border-radius: 0 0 72px 28px; }
+    .stage { height: 270px; }
+    .cc { width: 56vw; padding: 14px 16px; border-radius: 16px; }
+    .cc-wrap.back { left: 0; top: 70px; }
+    .cc-wrap.front { top: 10px; }
+    .cc-brand { font-size: 15px; } .cc-brand .tag { display: none; }
+    .chip { width: 36px; height: 27px; border-radius: 6px; }
+    .cc-num { font-size: 10px; letter-spacing: .08em; }
+    .cc-foot { font-size: 9px; }
+    .cc-logo i { width: 22px; height: 22px; }
+    .hero-bottom { grid-template-columns: 1fr; gap: 28px; margin-top: 40px; }
+    .seal { justify-self: center; }
+    .users { justify-content: flex-start; flex-wrap: wrap; }
     .cta .blob-2 { width: 200px; height: 200px; right: -90px; top: -110px; }
     .void { padding: 100px 0; }
     .band, .cta { margin: 0 8px; border-radius: 72px 28px 72px 28px; padding: 80px 0; }
@@ -621,26 +618,6 @@
     .mobile-menu .mm-grid { grid-template-columns: 1fr; }
     nav .wrap { padding: 0 12px; }
     .btn { height: 42px; padding: 0 18px; font-size: 13px; }
-  }
-  @media (max-width: 1180px) {
-    .hero-mid { height: auto; }
-    #globe { position: relative; height: 380px; }
-    .hero-cards { position: relative; inset: auto; display: flex; justify-content: center; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin: -150px auto 40px; }
-    .hcard, .hcard.left, .hcard.right { position: relative; left: auto; right: auto; top: auto; }
-  }
-  @media (max-width: 1020px) {
-    .nav-login { display: none; }
-  }
-  @media (max-width: 600px) {
-    .hero { padding: 112px 0 48px; border-radius: 0 0 72px 28px; }
-    .hero-lead { font-size: 14px; }
-    .hero-mid { margin-top: 8px; }
-    #globe { height: 250px; }
-    .hero-cards { margin-top: -80px; margin-bottom: 32px; }
-    .hcard, .hcard.right { width: 100%; }
-    .brand-row { gap: 16px 26px; }
-    .brand { font-size: 15px; }
-    .beam { width: 140px; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -659,7 +636,6 @@
         <span>Lx <b>PAY</b></span>
       </a>
       <div class="nav-links">
-        <a href="#topo" class="active">Início</a>
         <div class="nav-item">
           <button class="nav-trigger" type="button" id="trg-solucoes" aria-expanded="false" aria-controls="mm-solucoes">Soluções <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="mega" id="mm-solucoes" role="region" aria-labelledby="trg-solucoes">
@@ -718,10 +694,7 @@
         <a href="#dev">Desenvolvedores</a>
       </div>
       <div class="nav-right">
-        <a href="#" class="nav-login">Entrar</a>
-        <a href="#comecar" class="btn btn-dark">Criar conta grátis
-          <span class="arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
-        </a>
+        <a href="#comecar" class="btn btn-dark">Criar conta</a>
         <button class="nav-burger" type="button" id="nav-burger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menu">
           <span></span><span></span>
         </button>
@@ -732,65 +705,76 @@
 </nav>
 
 <!-- HERO -->
-<header class="hero" id="topo">
-  <div class="beam b1" aria-hidden="true"></div>
-  <div class="beam b3" aria-hidden="true"></div>
-  <div class="beam b2" aria-hidden="true"></div>
-
-  <div class="wrap hero-top">
-    <span class="hero-badge"><i><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></i>Rápido. Seguro. Sem atrito.</span>
-    <h1 class="hero-word" aria-label="Receba"><span class="silver">REC</span><span class="shout">EBA</span></h1>
-    <p class="hero-lead">Receba de qualquer lugar do Brasil na hora, com taxas baixas e segurança de ponta.</p>
-    <div class="hero-ctas">
-      <a href="#comecar" class="btn btn-yellow">Começar a receber <span class="arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span></a>
-      <a href="#como-funciona" class="btn btn-ghost"><span class="play"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>Veja como funciona</a>
-    </div>
-  </div>
-
-  <div class="hero-mid">
-    <canvas id="globe" aria-hidden="true"></canvas>
-    <div class="wrap hero-cards">
-      <div class="hcard left">
-        <div class="hc-row"><span class="hc-label">Lojistas ativos</span><span class="live">Ao vivo</span></div>
-        <div class="hc-big">1,24M+</div>
-        <div class="hc-sub">Vendendo com a Lx PAY</div>
-        <div class="hc-people" aria-hidden="true"><span>MS</span><span>RA</span><span>JL</span><span>BC</span><span class="more">+25K</span></div>
+<header class="hero">
+  <span class="spark" style="top:150px;left:44%;animation-delay:0s" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.6 6.4 5.6 11.4 12 12-6.4.6-11.4 5.6-12 12-.6-6.4-5.6-11.4-12-12C6.4 11.4 11.4 6.4 12 0z"/></svg></span>
+  <span class="spark y" style="top:180px;right:6%;animation-delay:-1.2s" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.6 6.4 5.6 11.4 12 12-6.4.6-11.4 5.6-12 12-.6-6.4-5.6-11.4-12-12C6.4 11.4 11.4 6.4 12 0z"/></svg></span>
+  <span class="spark" style="bottom:220px;left:46%;animation-delay:-2.1s" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.6 6.4 5.6 11.4 12 12-6.4.6-11.4 5.6-12 12-.6-6.4-5.6-11.4-12-12C6.4 11.4 11.4 6.4 12 0z"/></svg></span>
+  <span class="spark y" style="bottom:150px;right:28%;animation-delay:-0.6s" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.6 6.4 5.6 11.4 12 12-6.4.6-11.4 5.6-12 12-.6-6.4-5.6-11.4-12-12C6.4 11.4 11.4 6.4 12 0z"/></svg></span>
+  <span class="spark" style="top:110px;left:6%;animation-delay:-1.8s" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.6 6.4 5.6 11.4 12 12-6.4.6-11.4 5.6-12 12-.6-6.4-5.6-11.4-12-12C6.4 11.4 11.4 6.4 12 0z"/></svg></span>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="reveal">
+        <div class="badge">
+          <span class="dot">NOVO</span>
+          <span>Saque via Pix em segundos</span>
+        </div>
+        <h1 class="h-hero">Pagamento digital <em>rápido</em> e simples.</h1>
+        <p class="body lead">Pix, cartão e boleto numa única conta. Aprovação alta, antifraude com IA e o dinheiro das suas vendas disponível na hora — sem mensalidade e sem burocracia.</p>
+        <div class="hero-ctas">
+          <a href="#comecar" class="btn btn-yellow">Criar conta grátis
+            <span class="arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </a>
+          <a href="#taxas" class="btn btn-outline-light">Ver taxas</a>
+        </div>
       </div>
 
-      <form class="hcard right" id="calc" autocomplete="off">
-        <label class="hc-label" for="calc-valor">Você vende</label>
-        <div class="calc-field">
-          <span class="cur">R$</span>
-          <input id="calc-valor" inputmode="decimal" value="500,00" aria-label="Valor da venda em reais">
-          <select id="calc-metodo" class="calc-select" aria-label="Forma de pagamento">
-            <option value="pix">Pix</option>
-            <option value="cartao">Cartão</option>
-            <option value="boleto">Boleto</option>
-          </select>
+      <div class="stage reveal" aria-hidden="true">
+        <div class="stage-glow"></div>
+        <div class="stage-ring"></div>
+        <div class="cc-wrap back float delay">
+          <div class="cc yellow">
+            <div class="cc-top"><span class="cc-brand">Lx PAY<span class="tag">Business</span></span><div class="chip"></div></div>
+            <div class="cc-num">5274 •••• •••• 0921</div>
+            <div class="cc-foot"><div><small>Titular</small>Loja Aurora</div></div>
+          </div>
         </div>
-        <div class="calc-sep"><span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span></div>
-        <span class="hc-label">Você recebe</span>
-        <div class="calc-field">
-          <span class="cur">R$</span>
-          <output class="calc-out" id="calc-liquido" for="calc-valor calc-metodo">495,05</output>
-          <span class="calc-tag"><i></i>Lx PAY</span>
+        <div class="cc-wrap front float">
+          <div class="cc black">
+            <div class="cc-top"><span class="cc-brand">Lx <b style="color:var(--yellow)">PAY</b></span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".7"><path d="M8.5 6.5a8 8 0 0 1 0 11M12 4a12 12 0 0 1 0 16M5 9a4 4 0 0 1 0 6"/></svg>
+            </div>
+            <div><div class="chip" style="margin-bottom:16px"></div><div class="cc-num">1234 5678 9012 2026</div></div>
+            <div class="cc-foot"><div><small>Titular</small>Marina Souza</div><div><small>Validade</small>09/30</div><div class="cc-logo"><i></i><i></i></div></div>
+          </div>
         </div>
-        <div class="calc-meta"><span id="calc-taxa">Taxa 0,99%</span><b id="calc-prazo">Cai na hora ✓</b></div>
-        <button type="submit" class="btn btn-yellow">Gerar cobrança <span class="arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span></button>
-      </form>
+      </div>
     </div>
-  </div>
 
-  <div class="wrap brands">
-    <span class="label">Aceite as principais formas de pagamento do Brasil</span>
-    <div class="brand-row">
-      <span class="brand visa">VISA</span>
-      <span class="brand mcw"><span class="mc"><i></i><i></i></span>mastercard</span>
-      <span class="brand"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l3.6 3.6-3.6 3.6-3.6-3.6zM6.1 8.4l3.6 3.6-3.6 3.6L2.5 12zM17.9 8.4l3.6 3.6-3.6 3.6-3.6-3.6zM12 14.3l3.6 3.6-3.6 3.6-3.6-3.6z"/></svg>pix</span>
-      <span class="brand elo">elo</span>
-      <span class="brand">Hipercard</span>
-      <span class="brand"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 5v14M7 5v14M10 5v14M14 5v14M16 5v14M20 5v14"/></svg>Boleto</span>
-      <span class="brand"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>PCI DSS<small>Compliant</small></span></span>
+    <div class="hero-bottom reveal">
+      <div class="hf">
+        <div class="n">01</div>
+        <b>Recebimento instantâneo</b>
+        <p>Venda no Pix e saque na hora, direto do app ou do painel web.</p>
+      </div>
+      <div class="hf">
+        <div class="n">02</div>
+        <b>Fácil de usar</b>
+        <p>Checkout pronto, links de pagamento e cartão virtual para cada operação.</p>
+      </div>
+      <div class="seal" aria-hidden="true">
+        <svg class="ring" viewBox="0 0 136 136">
+          <defs><path id="circ" d="M68,68 m-52,0 a52,52 0 1,1 104,0 a52,52 0 1,1 -104,0"/></defs>
+          <text><textPath href="#circ">Lx PAY • pagamentos sem atrito • </textPath></text>
+        </svg>
+        <div class="core"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
+      </div>
+      <div class="users">
+        <div class="stat-box">1,24M</div>
+        <div>
+          <div class="avatars"><span>MS</span><span>RA</span><span>JL</span><span class="plus">+</span></div>
+          <span class="label">Lojistas ativos</span>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -1005,193 +989,6 @@
   </div>
 </footer>
 
-<script>
-  // Nav gets a glass background once the page scrolls
-  (function () {
-    var nav = document.getElementById('nav');
-    function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 40); }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  })();
-
-  // Fee calculator (same rates as the Taxas section)
-  (function () {
-    var form = document.getElementById('calc');
-    var valor = document.getElementById('calc-valor');
-    var metodo = document.getElementById('calc-metodo');
-    var out = document.getElementById('calc-liquido');
-    var taxa = document.getElementById('calc-taxa');
-    var prazo = document.getElementById('calc-prazo');
-    var RATES = {
-      pix:    { pct: 0.0099, fixo: 0,    taxa: 'Taxa 0,99%',            prazo: 'Cai na hora ✓' },
-      cartao: { pct: 0.0399, fixo: 0.49, taxa: 'Taxa 3,99% + R$ 0,49',  prazo: 'Antecipação automática ✓' },
-      boleto: { pct: 0,      fixo: 2.49, taxa: 'R$ 2,49 por boleto',    prazo: 'Após compensação ✓' }
-    };
-    var fmt = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    function parse(v) {
-      v = String(v).replace(/[^\d,.]/g, '');
-      if (v.indexOf(',') > -1) v = v.replace(/\./g, '').replace(',', '.');
-      var n = parseFloat(v);
-      return isFinite(n) ? n : 0;
-    }
-    function update() {
-      var r = RATES[metodo.value];
-      var v = parse(valor.value);
-      var liq = Math.max(0, v - v * r.pct - r.fixo);
-      out.textContent = fmt.format(liq);
-      taxa.textContent = r.taxa;
-      prazo.textContent = r.prazo;
-    }
-    valor.addEventListener('input', update);
-    valor.addEventListener('blur', function () { valor.value = fmt.format(parse(valor.value)); update(); });
-    metodo.addEventListener('change', update);
-    form.addEventListener('submit', function (e) { e.preventDefault(); location.hash = 'comecar'; });
-    update();
-  })();
-
-  // Dotted globe with payment arcs
-  (function () {
-    var canvas = document.getElementById('globe');
-    var ctx = canvas.getContext('2d');
-    var D = Math.PI / 180;
-    var LAND = [
-      [[-80,10],[-75,11],[-62,10],[-50,0],[-35,-5],[-38,-13],[-41,-22],[-48,-26],[-53,-34],[-58,-38],[-65,-42],[-68,-52],[-73,-50],[-73,-40],[-71,-30],[-70,-18],[-76,-13],[-81,-5],[-80,0],[-77,7]],
-      [[-165,65],[-150,70],[-130,70],[-110,72],[-90,72],[-80,65],[-65,60],[-55,50],[-67,45],[-70,42],[-76,36],[-81,30],[-80,25],[-83,29],[-90,29],[-97,27],[-97,21],[-90,20],[-87,15],[-83,10],[-78,8],[-85,13],[-92,15],[-105,20],[-110,24],[-117,32],[-122,37],[-124,42],[-125,48],[-135,57],[-150,60],[-165,60]],
-      [[-55,60],[-45,60],[-20,70],[-20,80],[-60,82],[-70,77],[-55,70]],
-      [[-10,36],[-9,43],[-2,44],[-5,48],[0,50],[5,53],[8,57],[5,62],[15,69],[28,71],[40,67],[60,70],[80,73],[100,77],[120,73],[140,72],[160,70],[180,68],[180,62],[160,60],[155,52],[140,48],[135,42],[128,38],[122,30],[120,23],[110,20],[108,12],[104,9],[100,13],[98,8],[100,3],[104,1],[98,16],[92,22],[88,22],[80,15],[77,8],[73,18],[67,25],[58,25],[56,27],[50,30],[48,29],[55,22],[59,22],[52,16],[44,12],[42,16],[35,28],[34,32],[36,36],[28,37],[26,40],[23,36],[20,40],[16,38],[12,44],[8,44],[3,43],[-1,37]],
-      [[-17,21],[-16,13],[-12,7],[-7,4],[2,6],[9,4],[9,-1],[13,-6],[12,-17],[15,-27],[18,-34],[25,-34],[32,-28],[35,-22],[40,-15],[40,-10],[39,-4],[43,2],[51,11],[43,12],[38,18],[33,28],[32,31],[20,32],[10,37],[0,36],[-6,36],[-10,30],[-13,27]],
-      [[114,-22],[114,-34],[118,-35],[124,-33],[132,-32],[138,-35],[141,-38],[147,-38],[150,-37],[153,-28],[153,-25],[146,-19],[142,-11],[136,-12],[136,-15],[130,-12],[125,-14],[120,-19]],
-      [[-5,50],[1,51],[2,53],[-3,56],[-5,58],[-6,56],[-4,54]],
-      [[130,31],[135,34],[140,35],[142,40],[141,45],[139,42],[135,36]],
-      [[95,5],[105,-6],[115,-8],[120,-9],[125,-8],[120,-4],[118,2],[110,2],[104,-1],[100,2]],
-      [[44,-25],[47,-25],[50,-15],[49,-12],[44,-17]]
-    ];
-    function inPoly(x, y, poly) {
-      var inside = false;
-      for (var i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-        var xi = poly[i][0], yi = poly[i][1], xj = poly[j][0], yj = poly[j][1];
-        if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) inside = !inside;
-      }
-      return inside;
-    }
-    var dots = [];
-    for (var lat = -60; lat <= 82; lat += 1.5) {
-      var step = 1.5 / Math.max(Math.cos(lat * D), 0.2);
-      for (var lon = -180; lon < 180; lon += step) {
-        for (var k = 0; k < LAND.length; k++) {
-          if (inPoly(lon, lat, LAND[k])) { dots.push([lon * D, lat * D]); break; }
-        }
-      }
-    }
-    var C = {
-      sp: [-46.6,-23.5], rj: [-43.2,-22.9], rec: [-34.9,-8], mao: [-60,-3.1], bsb: [-47.9,-15.8],
-      bue: [-58.4,-34.6], bog: [-74,4.7], mex: [-99,19.4], mia: [-80.2,25.8], ny: [-74,40.7],
-      lis: [-9.1,38.7], lon: [-0.1,51.5], mad: [-3.7,40.4], lag: [3.4,6.5], lua: [13.2,-8.8], cpt: [18.4,-33.9], dak: [-17.4,14.7]
-    };
-    var ROUTES = [['sp','ny'],['sp','lis'],['sp','lag'],['sp','bue'],['sp','mao'],['rec','lis'],['rec','dak'],['rj','mia'],['bsb','bog'],['sp','cpt'],['lis','lon'],['mia','mex'],['lua','rj'],['mad','ny'],['bog','mia']];
-    function vec(c) { var l = c[0] * D, p = c[1] * D; return [Math.cos(p) * Math.cos(l), Math.cos(p) * Math.sin(l), Math.sin(p)]; }
-    var arcs = ROUTES.map(function (r, i) {
-      var a = vec(C[r[0]]), b = vec(C[r[1]]);
-      var dot = a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
-      var om = Math.acos(Math.min(1, Math.max(-1, dot)));
-      var pts = [];
-      for (var t = 0; t <= 1.0001; t += 1 / 48) {
-        var s1 = Math.sin((1 - t) * om) / Math.sin(om), s2 = Math.sin(t * om) / Math.sin(om);
-        var v = [a[0]*s1 + b[0]*s2, a[1]*s1 + b[1]*s2, a[2]*s1 + b[2]*s2];
-        var lift = 1 + 0.16 * om / Math.PI * Math.sin(Math.PI * t);
-        pts.push([Math.atan2(v[1], v[0]), Math.asin(v[2]), lift]);
-      }
-      return { pts: pts, off: i * 0.137 };
-    });
-
-    var W = 0, H = 0, R = 0, cx = 0, cy = 0, dpr = 1;
-    function resize() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W = canvas.clientWidth; H = canvas.clientHeight;
-      canvas.width = W * dpr; canvas.height = H * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      R = Math.min(W * (W < 700 ? 0.7 : 0.36), 540);
-      cx = W / 2; cy = H * (W < 700 ? 0.14 : 0.2) + R;
-    }
-    var lat0 = -24 * D, sinP0 = Math.sin(lat0), cosP0 = Math.cos(lat0);
-    function proj(lon, lat, lon0, lift) {
-      var dl = lon - lon0, cp = Math.cos(lat), sp = Math.sin(lat), cdl = Math.cos(dl);
-      var cosc = sinP0 * sp + cosP0 * cp * cdl;
-      var r = R * (lift || 1);
-      return [cx + r * cp * Math.sin(dl), cy - r * (cosP0 * sp - sinP0 * cp * cdl), cosc];
-    }
-    function draw(time) {
-      var lon0 = (-22 + Math.sin(time / 26000) * 12) * D;
-      ctx.clearRect(0, 0, W, H);
-      // atmosphere
-      var g = ctx.createRadialGradient(cx, cy, R * 0.92, cx, cy, R * 1.12);
-      g.addColorStop(0, 'rgba(253,224,71,0)');
-      g.addColorStop(0.4, 'rgba(253,224,71,0.28)');
-      g.addColorStop(1, 'rgba(253,224,71,0)');
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R * 1.12, 0, Math.PI * 2); ctx.fill();
-      // sphere
-      var sg = ctx.createRadialGradient(cx, cy - R * 0.9, R * 0.1, cx, cy, R);
-      sg.addColorStop(0, '#17150a'); sg.addColorStop(1, '#050505');
-      ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = 'rgba(253,224,71,0.55)'; ctx.lineWidth = 1.2;
-      ctx.shadowColor = 'rgba(253,224,71,0.9)'; ctx.shadowBlur = 18;
-      ctx.beginPath(); ctx.arc(cx, cy, R, Math.PI, 0); ctx.stroke();
-      ctx.shadowBlur = 0;
-      // land dots
-      var size = W < 700 ? 1.5 : 2;
-      for (var i = 0; i < dots.length; i++) {
-        var q = proj(dots[i][0], dots[i][1], lon0);
-        if (q[2] <= 0 || q[1] > H + 4) continue;
-        ctx.fillStyle = 'rgba(253,224,71,' + (0.18 + q[2] * 0.72).toFixed(3) + ')';
-        ctx.fillRect(q[0], q[1], size, size);
-      }
-      // arcs
-      ctx.lineCap = 'round';
-      for (var a = 0; a < arcs.length; a++) {
-        var pts = arcs[a].pts, prev = null;
-        ctx.beginPath();
-        for (var j = 0; j < pts.length; j++) {
-          var p = proj(pts[j][0], pts[j][1], lon0, pts[j][2]);
-          var vis = p[2] > -0.08 * (pts[j][2] - 1) * 10;
-          if (vis && prev) ctx.lineTo(p[0], p[1]); else ctx.moveTo(p[0], p[1]);
-          prev = vis ? p : null;
-        }
-        ctx.strokeStyle = 'rgba(253,224,71,0.45)'; ctx.lineWidth = 1; ctx.stroke();
-        var t = ((time / 2600) + arcs[a].off) % 1;
-        var idx = Math.floor(t * (pts.length - 1));
-        var hp = proj(pts[idx][0], pts[idx][1], lon0, pts[idx][2]);
-        if (hp[2] > 0) {
-          var hg = ctx.createRadialGradient(hp[0], hp[1], 0, hp[0], hp[1], 9);
-          hg.addColorStop(0, 'rgba(255,255,255,0.95)'); hg.addColorStop(0.3, 'rgba(253,224,71,0.8)'); hg.addColorStop(1, 'rgba(253,224,71,0)');
-          ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(hp[0], hp[1], 9, 0, Math.PI * 2); ctx.fill();
-        }
-      }
-      // cities
-      for (var key in C) {
-        var c = proj(C[key][0] * D, C[key][1] * D, lon0);
-        if (c[2] <= 0.05) continue;
-        var pulse = 0.6 + 0.4 * Math.sin(time / 500 + c[0]);
-        var cg = ctx.createRadialGradient(c[0], c[1], 0, c[0], c[1], 14);
-        cg.addColorStop(0, 'rgba(255,250,200,' + (0.95 * c[2]).toFixed(2) + ')');
-        cg.addColorStop(0.25, 'rgba(253,224,71,' + (0.7 * pulse * c[2]).toFixed(2) + ')');
-        cg.addColorStop(1, 'rgba(253,224,71,0)');
-        ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(c[0], c[1], 14, 0, Math.PI * 2); ctx.fill();
-      }
-    }
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var running = true, raf = 0;
-    function loop(t) { draw(t); if (running && !reduce) raf = requestAnimationFrame(loop); }
-    resize(); draw(0);
-    window.addEventListener('resize', function () { resize(); draw(performance.now()); });
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (en) {
-        running = en[0].isIntersecting;
-        cancelAnimationFrame(raf);
-        if (running && !reduce) raf = requestAnimationFrame(loop);
-      }).observe(canvas);
-    } else if (!reduce) { raf = requestAnimationFrame(loop); }
-  })();
-</script>
 <script>
   // Mega menu: opens on click, closes on outside click or Esc
   (function () {
